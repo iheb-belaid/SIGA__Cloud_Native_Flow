@@ -1,90 +1,99 @@
-# 📋 ToDo App - Spring Boot & CI/CD Deployment
+# SIGA Cloud Native Flow
 
-Ce projet est une application web de gestion de tâches (*ToDo App*) développée avec **Spring Boot** (backend Java), et conçue pour être déployée à l’aide d’un pipeline **CI/CD** complet avec **Jenkins**, **Docker**, et **VM Ubuntu**.
+Projet realise dans le cadre d'un stage DevOps chez SIGA autour du sujet :
 
----
+**Cloud Native Flow : Automatisation CI/CD et Deploiement GitOps Securise**
 
-## 🚀 Fonctionnalités
+## Objectif
 
-- ✅ Ajouter, afficher et supprimer des tâches  
-- ✅ Backend développé en **Spring Boot**  
-- ✅ Base de données **PostgreSQL**  
-- ✅ Pipeline CI/CD automatisé avec **Jenkins**  
-- ✅ Conteneurisation avec **Docker**  
-- ✅ Déploiement automatique sur une **VM Ubuntu** via `scp` et `docker-compose`
+Ce projet sert de base applicative pour mettre en place ensuite une chaine DevOps complete autour d'une application de gestion de taches.
 
----
+L'objectif est de disposer d'une application separee en :
 
-## 🛠 Technologies utilisées
+- un backend Spring Boot
+- un frontend Angular
+- une base de donnees PostgreSQL
 
-| Technologie     | Rôle                                 |
-|----------------|--------------------------------------|
-| Spring Boot     | Backend Java (REST API)             |
-| PostgreSQL      | Base de données relationnelle        |
-| Maven           | Outil de build Java                  |
-| Jenkins         | Intégration et déploiement continu   |
-| GitHub          | Hébergement du code source           |
-| Docker          | Conteneurisation de l’application    |
-| docker-compose  | Orchestration locale (sur VM)        |
+Puis d'utiliser cette base pour construire les prochaines etapes du sujet :
 
----
+- integration continue
+- livraison continue
+- deploiement GitOps
+- securisation du cycle de deploiement
 
-## 📂 Structure du projet
+## Stack technique
 
-```bash
+- Java 21
+- Spring Boot 3
+- Angular 21
+- PostgreSQL
+- Maven
+- npm
+
+## Structure du projet
+
+```text
 .
-├── src/                        # Code source Java
-├── target/                     # Fichiers compilés (.jar)
-├── Dockerfile                  # Image Docker de l'app
-├── docker-compose.yml          # Déploiement multi-service (app + db)
-├── Jenkinsfile                 # Pipeline Jenkins CI/CD
-├── README.md                   # Ce fichier
-└── ...
+|-- backend/   # API Spring Boot
+|-- frontend/  # Application Angular
+`-- README.md
 ```
 
-## 🔁 CI/CD avec Jenkins
+## Fonctionnalites actuelles
 
-Le pipeline Jenkins est structuré en 4 étapes principales :
+- creation de categories
+- creation de taches
+- modification de taches
+- suppression de taches
+- affichage en tableau Kanban
+- changement de statut par glisser-deposer
 
-Clonage du dépôt GitHub
+## Lancement du backend
 
-Compilation du projet avec Maven (mvn clean package)
-
-Transfert automatique du .jar, du Dockerfile et du docker-compose.yml vers la VM Ubuntu
-
-Déploiement automatique via docker compose sur la VM
-
-Une notification mail est envoyée à la fin du pipeline en cas de succès.
-
-📦 Conteneurisation
-Le Dockerfile construit une image Spring Boot à partir du .jar :
+Depuis le dossier `backend` :
 
 ```bash
-FROM openjdk:17-jdk-slim
-ARG jar_FILE=target/ToDo-0.0.1-SNAPSHOT.jar
-COPY ${jar_FILE} app.jar
-EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "app.jar"]
+./mvnw spring-boot:run
 ```
-Le fichier docker-compose.yml orchestre les services suivants :
 
-Un conteneur pour l'application Spring Boot
+Sous Windows PowerShell :
 
-Un conteneur PostgreSQL
+```powershell
+.\mvnw.cmd spring-boot:run
+```
 
-Un volume Docker pour persister les données
+Le backend demarre par defaut sur :
 
-##  📧 Notification par email
-À la fin du pipeline Jenkins, une notification mail est envoyée pour indiquer le succès du déploiement.
-Configuration réalisée dans Manage Jenkins > Configure System > Extended Email Notification avec SMTP.
+```text
+http://localhost:8081
+```
 
-## 📌 Auteurs
-👤 Iheb Belaid
-Stage d’été DevOps (2025) – ST2i, Tunis
-Projet : Mise en place d’un pipeline CI/CD avec Jenkins et déploiement sur VM avec Docker.
+## Lancement du frontend
 
-## 📄 Licence
-Ce projet est open-source à but pédagogique, sans licence commerciale.
+Depuis le dossier `frontend` :
 
-##  📷 Captures d'écran
-<img width="1407" height="414" alt="image" src="https://github.com/user-attachments/assets/eadc86e4-2284-473c-b949-fd5376dfcf42" />
+```bash
+npm install
+npm start
+```
+
+Le frontend demarre par defaut sur :
+
+```text
+http://localhost:4200
+```
+
+## Base de donnees
+
+L'application utilise PostgreSQL avec la base :
+
+```text
+Siga-todo-cloud-native-Flow
+```
+
+Le backend a ete prepare pour creer automatiquement cette base si PostgreSQL est disponible localement et que la base n'existe pas encore.
+
+## Auteur
+
+Iheb Belaid  
+Stage DevOps - SIGA
