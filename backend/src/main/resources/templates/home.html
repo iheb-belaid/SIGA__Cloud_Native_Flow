@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Accueil</title></head>
+<body>
+<h1>Bienvenue sur <span th:text="${appName}">ToDo App</span> !</h1>
+<a th:href="@{/tasks}">Voir mes tâches</a>
+</body>
+</html>

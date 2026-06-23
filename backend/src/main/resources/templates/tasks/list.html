@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des tâches</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <script th:src="@{/js/script.js}"></script>
+</head>
+<body>
+<h1>Mes Tâches</h1>
+
+<a th:href="@{/tasks/new}">➕ Nouvelle tâche</a>
+<br> <br> <br>
+<table>
+  <thead>
+  <tr>
+    <th>Titre</th>
+    <th>Terminée</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="task : ${tasks}">
+    <td th:text="${task.title}"></td>
+    <td th:text="${task.completed} ? '✅' : '❌'"></td>
+    <td>
+      <a th:href="@{'/tasks/edit/' + ${task.id}}">✏️ Modifier</a>
+      |
+      <a th:href="@{'/tasks/delete/' + ${task.id}}"
+         onclick="return confirmDelete()">🗑️ Supprimer</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

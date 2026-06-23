@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kanban – Tâches</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* Colonnes ------------------------------------------------------- */
+        .kanban-col{
+            min-height:70vh;background:#f7f8fa;border-radius:10px;padding:1rem;overflow-y:auto;
+            box-shadow:inset 0 0 0 2px #e9ecef}
+        .kanban-col::-webkit-scrollbar{width:6px}
+        .kanban-col::-webkit-scrollbar-thumb{background:#ced4da;border-radius:4px}
+
+        /* Cartes --------------------------------------------------------- */
+        .task-card{
+            background:#fff;border-radius:8px;padding:12px 14px;margin-bottom:12px;
+            border-left:6px solid #6c757d;cursor:grab;transition:box-shadow .15s}
+        .task-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+        .task-card.dragging{opacity:.5}
+
+        /* Couleurs par statut (MAJ dynamique) --------------------------- */
+        .status-TODO        {border-color:#6c757d}
+        .status-IN_PROGRESS {border-color:#0d6efd}
+        .status-DONE        {border-color:#198754}
+
+        /* Badges priorité ----------------------------------------------- */
+        .prio-badge{font-size:.75rem;padding:.25em .55em}
+        .badge-HIGH   {background:#dc3545!important}
+        .badge-MEDIUM {background:#ffc107!important;color:#212529!important}
+        .badge-LOW    {background:#0d6efd!important}
+    </style>
+</head>
+<body class="bg-light">
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-semibold">Tableau des tâches</h2>
+        <a class="btn btn-success" th:href="@{/tasks/new}">➕ Nouvelle tâche</a>
+    </div>
+
+    <div class="row g-3">
+        <!-- ===== TODO ===== -->
+        <div class="col-md-4">
+            <h6 class="mb-1">📝 À faire</h6>
+            <div class="kanban-col" data-status="TODO" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <div th:each="t : ${todo}" class="task-card status-TODO"
+                     draggable="true" th:attr="data-id=${t.id}" ondragstart="drag(event)">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold task-title" th:text="${t.title}"></span>
+                        <!-- Remplace **uniquement** le span badge dans chaque carte par ce bloc -->
+                        <span class="badge prio-badge"
+                              th:classappend="'badge-' + ${t.priority}"
+                              th:text="${t.priority.name() == 'HIGH'   ? '🔥 Haute' :
+                                       (t.priority.name() == 'MEDIUM' ? '⚠️ Moyenne' : '💤 Faible')}">
+                        </span>
+
+                    </div>
+                    <small class="text-muted"><i class="bi bi-calendar2-range"></i>
+                        <span th:text="${#temporals.format(t.dueDate,'yyyy-MM-dd')} ?: '—'"></span>
+                    </small>
+                    <div class="mt-2 d-flex gap-2">
+                        <a class="btn btn-sm btn-outline-primary" th:href="@{'/tasks/edit/' + ${t.id}}">✏️</a>
+                        <a class="btn btn-sm btn-outline-danger"  th:href="@{'/tasks/delete/' + ${t.id}}">🗑️</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== IN PROGRESS ===== -->
+        <div class="col-md-4">
+            <h6 class="mb-1">🚧 En cours</h6>
+            <div class="kanban-col" data-status="IN_PROGRESS" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <div th:each="t : ${doing}" class="task-card status-IN_PROGRESS"
+                     draggable="true" th:attr="data-id=${t.id}" ondragstart="drag(event)">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold task-title" th:text="${t.title}"></span>
+
+                        <!-- Remplace **uniquement** le span badge dans chaque carte par ce bloc -->
+                        <span class="badge prio-badge"
+                              th:classappend="'badge-' + ${t.priority}"
+                                                      th:text="${t.priority.name() == 'HIGH'   ? '🔥 Haute' :
+                                       (t.priority.name() == 'MEDIUM' ? '⚠️ Moyenne' : '💤 Faible')}">
+                        </span>
+
+
+                    </div>
+                    <small class="text-muted"><i class="bi bi-calendar2-range"></i>
+                        <span th:text="${#temporals.format(t.dueDate,'yyyy-MM-dd')} ?: '—'"></span>
+                    </small>
+                    <div class="mt-2 d-flex gap-2">
+                        <a class="btn btn-sm btn-outline-primary" th:href="@{'/tasks/edit/' + ${t.id}}">✏️</a>
+                        <a class="btn btn-sm btn-outline-danger"  th:href="@{'/tasks/delete/' + ${t.id}}">🗑️</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== DONE ===== -->
+        <div class="col-md-4">
+            <h6 class="mb-1">✅ Terminée</h6>
+            <div class="kanban-col" data-status="DONE" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <div th:each="t : ${done}" class="task-card status-DONE"
+                     draggable="true" th:attr="data-id=${t.id}" ondragstart="drag(event)">
+                    <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold task-title text-decoration-line-through"
+                  th:text="${t.title}"></span>
+                        <!-- Remplace **uniquement** le span badge dans chaque carte par ce bloc -->
+                        <span class="badge prio-badge"
+                              th:classappend="'badge-' + ${t.priority}"
+                              th:text="${t.priority.name() == 'HIGH'   ? '🔥 Haute' :
+                                       (t.priority.name() == 'MEDIUM' ? '⚠️ Moyenne' : '💤 Faible')}">
+                        </span>
+                    </div>
+                        <small class="text-muted"><i class="bi bi-calendar2-range"></i>
+                        <span th:text="${#temporals.format(t.dueDate,'yyyy-MM-dd')} ?: '—'"></span>
+                    </small>
+                    <div class="mt-2 d-flex gap-2">
+                        <a class="btn btn-sm btn-outline-primary" th:href="@{'/tasks/edit/' + ${t.id}}">✏️</a>
+                        <a class="btn btn-sm btn-outline-danger"  th:href="@{'/tasks/delete/' + ${t.id}}">🗑️</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Drag & Drop + MAJ visuelle --------------------------------------- -->
+<script>
+    let dragged = null;
+
+    function drag(e) {
+        dragged = e.target;
+        dragged.classList.add('dragging');
+    }
+
+    function allowDrop(e) { e.preventDefault(); }
+
+    function drop(e) {
+        e.preventDefault();
+        if (!dragged) return;
+
+        const taskId  = dragged.dataset.id;
+        const newStat = e.currentTarget.dataset.status;
+
+        // Place la carte dans la nouvelle colonne
+        e.currentTarget.appendChild(dragged);
+        dragged.classList.remove('dragging');
+
+        /* --------- MAJ VISUELLE --------- */
+        // retire anciennes classes statut
+        dragged.classList.remove('status-TODO','status-IN_PROGRESS','status-DONE');
+        dragged.classList.add('status-' + newStat);
+
+        // barre ou débarrer le titre
+        const titleEl = dragged.querySelector('.task-title');
+        if (newStat === 'DONE') titleEl.classList.add('text-decoration-line-through');
+        else                    titleEl.classList.remove('text-decoration-line-through');
+
+        // appel backend
+        fetch(`/tasks/${taskId}/status/${newStat}`, { method: 'PATCH' });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------------< com.stage:ToDo >---------------------------
+[INFO] Building ToDo 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.3:run (default-cli) > test-compile @ ToDo >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ ToDo ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 7 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ ToDo ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 17 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ ToDo ---
+[INFO] skip non existing resourceDirectory C:\Users\Iheb\Desktop\SIGA Stage\ToDo\backend\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ ToDo ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] <<< spring-boot:3.5.3:run (default-cli) < test-compile @ ToDo <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.3:run (default-cli) @ ToDo ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.3)
+
+2026-06-23T19:00:20.850+01:00  INFO 24404 --- [ToDo] [  restartedMain] com.stage.appToDo.ToDoApplication        : Starting ToDoApplication using Java 21.0.11 with PID 24404 (C:\Users\Iheb\Desktop\SIGA Stage\ToDo\backend\target\classes started by Iheb in C:\Users\Iheb\Desktop\SIGA Stage\ToDo\backend)
+2026-06-23T19:00:20.859+01:00  INFO 24404 --- [ToDo] [  restartedMain] com.stage.appToDo.ToDoApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-06-23T19:00:21.066+01:00  INFO 24404 --- [ToDo] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-23T19:00:21.067+01:00  INFO 24404 --- [ToDo] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-23T19:00:25.160+01:00  INFO 24404 --- [ToDo] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-23T19:00:25.351+01:00  INFO 24404 --- [ToDo] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 155 ms. Found 2 JPA repository interfaces.
+2026-06-23T19:00:28.071+01:00  INFO 24404 --- [ToDo] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-06-23T19:00:28.130+01:00  INFO 24404 --- [ToDo] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-23T19:00:28.134+01:00  INFO 24404 --- [ToDo] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.42]
+2026-06-23T19:00:28.436+01:00  INFO 24404 --- [ToDo] [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-23T19:00:28.443+01:00  INFO 24404 --- [ToDo] [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7370 ms
+2026-06-23T19:00:29.144+01:00  INFO 24404 --- [ToDo] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-23T19:00:29.474+01:00  INFO 24404 --- [ToDo] [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.18.Final
+2026-06-23T19:00:29.731+01:00  INFO 24404 --- [ToDo] [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-23T19:00:31.402+01:00  INFO 24404 --- [ToDo] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-23T19:00:31.568+01:00  INFO 24404 --- [ToDo] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-23T19:00:31.939+01:00  INFO 24404 --- [ToDo] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1f241a61
+2026-06-23T19:00:31.945+01:00  INFO 24404 --- [ToDo] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-23T19:00:32.440+01:00  INFO 24404 --- [ToDo] [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-23T19:00:39.129+01:00  INFO 24404 --- [ToDo] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table category (id bigint generated by default as identity, name varchar(255) not null, primary key (id))
+Hibernate: create table task (id bigint generated by default as identity, due_date date, priority varchar(255) not null check (priority in ('HIGH','MEDIUM','LOW')), status varchar(255) not null check (status in ('TODO','IN_PROGRESS','DONE')), title varchar(100) not null, category_id bigint not null, primary key (id))
+Hibernate: alter table if exists task add constraint FKkjb4pwpo8oqc8fvkgbmiitsu9 foreign key (category_id) references category
+2026-06-23T19:00:41.039+01:00  INFO 24404 --- [ToDo] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-23T19:00:43.042+01:00  WARN 24404 --- [ToDo] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-23T19:00:45.028+01:00  INFO 24404 --- [ToDo] [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-06-23T19:00:45.593+01:00  INFO 24404 --- [ToDo] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-06-23T19:00:45.753+01:00  INFO 24404 --- [ToDo] [  restartedMain] com.stage.appToDo.ToDoApplication        : Started ToDoApplication in 27.495 seconds (process running for 35.6)
+2026-06-23T19:01:16.056+01:00  INFO 24404 --- [ToDo] [nio-8081-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-23T19:01:16.062+01:00  INFO 24404 --- [ToDo] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-23T19:01:16.073+01:00  INFO 24404 --- [ToDo] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+Hibernate: select c1_0.id,c1_0.name from category c1_0
+Hibernate: insert into category (name) values (?)
+Hibernate: select c1_0.id,c1_0.name from category c1_0
+2026-06-23T19:01:41.417+01:00  WARN 24404 --- [ToDo] [nio-8081-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('\' (code 92)): was expecting double-quote to start field name]
+Hibernate: select c1_0.id,c1_0.name from category c1_0
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
+Hibernate: insert into task (category_id,due_date,priority,status,title) values (?,?,?,?,?)
+Hibernate: select t1_0.id,t1_0.category_id,c1_0.id,c1_0.name,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 join category c1_0 on c1_0.id=t1_0.category_id where t1_0.id=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,c1_0.id,c1_0.name,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 join category c1_0 on c1_0.id=t1_0.category_id where t1_0.id=?
+Hibernate: update task set category_id=?,due_date=?,priority=?,status=?,title=? where id=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,c1_0.id,c1_0.name,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 join category c1_0 on c1_0.id=t1_0.category_id where t1_0.id=?
+Hibernate: delete from task where id=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select c1_0.id,c1_0.name from category c1_0
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select c1_0.id,c1_0.name from category c1_0
+Hibernate: insert into category (name) values (?)
+Hibernate: select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
+Hibernate: insert into task (category_id,due_date,priority,status,title) values (?,?,?,?,?)
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select t1_0.id,t1_0.category_id,t1_0.due_date,t1_0.priority,t1_0.status,t1_0.title from task t1_0 where t1_0.status=?
+Hibernate: select c1_0.id,c1_0.name from category c1_0
+2026-06-23T19:07:03.507+01:00  WARN 24404 --- [ToDo] [nio-8081-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public com.stage.appToDo.TaskDto com.stage.appToDo.TaskController.create(com.stage.appToDo.TaskRequest): [Field error in object 'taskRequest' on field 'dueDate': rejected value [2026-02-05]; codes [FutureOrPresent.taskRequest.dueDate,FutureOrPresent.dueDate,FutureOrPresent.java.time.LocalDate,FutureOrPresent]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [taskRequest.dueDate,dueDate]; arguments []; default message [dueDate]]; default message [La date limite doit etre aujourd'hui ou dans le futur]] ]
+2026-06-23T19:07:15.688+01:00  WARN 24404 --- [ToDo] [nio-8081-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public com.stage.appToDo.TaskDto com.stage.appToDo.TaskController.create(com.stage.appToDo.TaskRequest): [Field error in object 'taskRequest' on field 'dueDate': rejected value [2026-03-06]; codes [FutureOrPresent.taskRequest.dueDate,FutureOrPresent.dueDate,FutureOrPresent.java.time.LocalDate,FutureOrPresent]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [taskRequest.dueDate,dueDate]; arguments []; default message [dueDate]]; default message [La date limite doit etre aujourd'hui ou dans le futur]] ]

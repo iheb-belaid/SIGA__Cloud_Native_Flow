@@ -1,0 +1,93 @@
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">{{ titleText() }}</h3>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="alert alert-danger" *ngIf="formError">{{ formError }}</div>
+
+        <div class="mb-3">
+          <label class="form-label">Titre</label>
+          <input type="text" class="form-control" formControlName="title" />
+          <div class="text-danger" *ngIf="form.controls.title.touched && form.controls.title.invalid">
+            Le titre doit contenir entre 3 et 100 caracteres.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Date limite</label>
+          <input type="date" class="form-control" formControlName="dueDate" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Priorite</label>
+          <select class="form-select" formControlName="priority">
+            <option *ngFor="let priority of priorities" [value]="priority">{{ priority }}</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Categorie</label>
+          <div class="d-flex gap-2 align-items-center">
+            <select class="form-select" formControlName="categoryId" [disabled]="loadingCategories">
+              <option [ngValue]="0" disabled>-- Choisir --</option>
+              <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
+            </select>
+            <button type="button" class="btn btn-outline-primary category-add-btn" (click)="openCategoryModal()">+</button>
+          </div>
+          <div class="form-text" *ngIf="loadingCategories">Chargement des categories...</div>
+          <div class="text-danger" *ngIf="form.controls.categoryId.touched && form.controls.categoryId.invalid">
+            La categorie est obligatoire.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Statut</label>
+          <select class="form-select" formControlName="status">
+            <option *ngFor="let status of statuses" [value]="status.value">{{ status.label }}</option>
+          </select>
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-success" [disabled]="saving">Enregistrer</button>
+        </div>
+      </form>
+
+      <div class="mt-3">
+        <a class="btn btn-link" routerLink="/tasks">Retour au tableau</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showCategoryModal" class="modal-shell" (click)="closeCategoryModal()">
+  <div class="modal-dialog-custom" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <div class="modal-header modal-header-custom">
+        <h5 class="modal-title">Nouvelle Categorie</h5>
+        <button type="button" class="btn-close" (click)="closeCategoryModal()"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="categoryForm" (ngSubmit)="addCategory()">
+          <input class="form-control" formControlName="name" placeholder="Nom" />
+          <div class="text-danger mt-2" *ngIf="categoryForm.controls.name.touched && categoryForm.controls.name.invalid">
+            Le nom de categorie est obligatoire.
+          </div>
+        </form>
+        <div class="alert alert-danger mt-3 mb-0" *ngIf="categoryError">
+          {{ categoryError }}
+        </div>
+      </div>
+
+      <div class="modal-footer modal-footer-custom">
+        <button class="btn btn-secondary" type="button" (click)="closeCategoryModal()">Annuler</button>
+        <button class="btn btn-primary" type="button" (click)="addCategory()" [disabled]="categorySaving">
+          {{ categorySaving ? 'Ajout...' : 'Ajouter' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
