@@ -68,6 +68,19 @@ Le backend demarre par defaut sur :
 http://localhost:8081
 ```
 
+Profils Spring Boot disponibles :
+
+- `dev` par defaut pour le developpement local
+- `prod` pour les executions conteneurisees et les environnements de deploiement
+
+Variables d'environnement principales :
+
+- `SPRING_PROFILES_ACTIVE`
+- `SPRING_DATASOURCE_URL`
+- `SPRING_DATASOURCE_USERNAME`
+- `SPRING_DATASOURCE_PASSWORD`
+- `APP_CORS_ALLOWED_ORIGINS`
+
 ## Lancement du frontend
 
 Depuis le dossier `frontend` :
@@ -83,6 +96,11 @@ Le frontend demarre par defaut sur :
 http://localhost:4200
 ```
 
+Le frontend utilise maintenant des fichiers d'environnement Angular :
+
+- `src/environments/environment.ts` pour le developpement
+- `src/environments/environment.prod.ts` pour la production
+
 ## Base de donnees
 
 L'application utilise PostgreSQL avec la base :
@@ -92,6 +110,13 @@ Siga-todo-cloud-native-Flow
 ```
 
 Le backend a ete prepare pour creer automatiquement cette base si PostgreSQL est disponible localement et que la base n'existe pas encore.
+
+## Observabilite
+
+Le backend expose des endpoints Actuator pour preparer le monitoring :
+
+- `http://localhost:8081/actuator/health`
+- `http://localhost:8081/actuator/prometheus`
 
 ## Auteur
 

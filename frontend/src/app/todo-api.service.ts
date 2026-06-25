@@ -1,11 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Category, Task, TaskBoard, TaskPayload, Status } from './todo.models';
+import { environment } from '../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TodoApiService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8081/api';
+  private readonly apiUrl = environment.apiBaseUrl;
 
   getBoard() {
     return this.http.get<TaskBoard>(`${this.apiUrl}/tasks/board`);
