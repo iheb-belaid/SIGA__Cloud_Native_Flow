@@ -118,6 +118,26 @@ Le backend expose des endpoints Actuator pour preparer le monitoring :
 - `http://localhost:8081/actuator/health`
 - `http://localhost:8081/actuator/prometheus`
 
+## Integration Continue
+
+Le workflow GitHub Actions principal se trouve dans :
+
+- `.github/workflows/ci.yml`
+
+Cette pipeline CI est declenchee sur :
+
+- `push` sur `main`
+- `pull_request` vers `main`
+
+Elle execute :
+
+- les tests backend Spring Boot
+- l'installation des dependances frontend avec `npm ci`
+- les tests frontend Angular
+- le build Angular
+
+Le build frontend est ensuite publie comme artefact GitHub Actions sous le nom `frontend-dist`.
+
 ## Auteur
 
 Iheb Belaid  
