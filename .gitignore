@@ -35,5 +35,6 @@ build/
 .vscode/
 frontend/node_modules/
 frontend/dist/
+frontend/coverage/
 .env
 .github/modernize/

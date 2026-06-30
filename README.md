@@ -138,6 +138,27 @@ Elle execute :
 
 Le build frontend est ensuite publie comme artefact GitHub Actions sous le nom `frontend-dist`.
 
+## Qualite et securite
+
+Le workflow GitHub Actions de qualite et securite se trouve dans :
+
+- `.github/workflows/quality-security.yml`
+
+Cette pipeline :
+
+- demarre automatiquement apres succes du workflow `CI` sur `main`
+- peut aussi etre relancee manuellement avec `workflow_dispatch`
+- genere un rapport de couverture backend avec JaCoCo
+- genere un rapport de couverture frontend au format LCOV
+- lance SonarQube sur le backend et le frontend si les secrets GitHub sont definis
+- lance OWASP Dependency-Check sur le repository
+- publie les rapports backend, frontend et OWASP comme artefacts GitHub Actions
+
+Secrets GitHub requis pour SonarQube :
+
+- `SONAR_HOST_URL`
+- `SONAR_TOKEN`
+
 ## Auteur
 
 Iheb Belaid  
