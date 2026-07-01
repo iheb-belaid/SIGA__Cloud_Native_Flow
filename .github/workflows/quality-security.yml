@@ -97,8 +97,8 @@ jobs:
         uses: dependency-check/Dependency-Check_Action@main
         id: dependency-check
         env:
-          JAVA_HOME: ""
-          JAVA_HOME_21_X64: ""
+          JAVA_HOME: /opt/jdk
+          JAVA_HOME_21_X64: /opt/jdk
         with:
           project: SIGA Cloud Native Flow
           path: .
