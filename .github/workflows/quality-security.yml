@@ -107,6 +107,7 @@ jobs:
           path: .
           format: ALL
           out: reports/dependency-check
+          args: --disableCentral
 
       - name: Upload backend coverage report
         uses: actions/upload-artifact@v4
