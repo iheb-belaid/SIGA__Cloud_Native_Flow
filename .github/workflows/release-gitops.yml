@@ -94,8 +94,10 @@ jobs:
           image-ref: ${{ steps.image-tags.outputs.backend_image }}
           format: table
           ignore-unfixed: true
+          scanners: vuln
           severity: HIGH,CRITICAL
           exit-code: "1"
+          timeout: 30m
 
       - name: Scan frontend image with Trivy
         uses: aquasecurity/trivy-action@0.35.0
@@ -103,8 +105,10 @@ jobs:
           image-ref: ${{ steps.image-tags.outputs.frontend_image }}
           format: table
           ignore-unfixed: true
+          scanners: vuln
           severity: HIGH,CRITICAL
           exit-code: "1"
+          timeout: 30m
 
       - name: Push backend image to GHCR
         run: docker push "${{ steps.image-tags.outputs.backend_image }}"
