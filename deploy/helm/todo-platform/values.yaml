@@ -1,0 +1,78 @@
+namespace: cloud-native-flow
+namespaceCreate: true
+
+backend:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/change-me/todo-backend
+    tag: sha-placeholder
+    pullPolicy: IfNotPresent
+  containerPort: 8081
+  service:
+    type: ClusterIP
+    port: 8080
+    targetPort: 8081
+  env:
+    SPRING_PROFILES_ACTIVE: prod
+    APP_CORS_ALLOWED_ORIGINS: http://todo.local
+  probes:
+    livenessPath: /actuator/health/liveness
+    readinessPath: /actuator/health/readiness
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+frontend:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/change-me/todo-frontend
+    tag: sha-placeholder
+    pullPolicy: IfNotPresent
+  containerPort: 80
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+
+postgres:
+  enabled: true
+  image:
+    repository: postgres
+    tag: "17-alpine"
+    pullPolicy: IfNotPresent
+  createSecret: true
+  auth:
+    database: todo_db
+    username: todo_user
+    password: change-me-in-test
+    passwordSecretName: todo-postgres-secret
+  service:
+    port: 5432
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClassName: ""
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+ingress:
+  enabled: true
+  className: nginx
+  host: todo.local
+  annotations: {}

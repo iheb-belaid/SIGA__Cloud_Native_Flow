@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - gitops/**
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - gitops/**
 
 concurrency:
   group: ci-${{ github.ref }}

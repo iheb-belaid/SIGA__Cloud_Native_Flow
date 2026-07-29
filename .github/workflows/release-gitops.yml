@@ -15,11 +15,12 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 env:
   REGISTRY: ghcr.io
+  GITOPS_IMAGE_TAGS_FILE: gitops/environments/test/image-tags.yaml
 
 jobs:
   prepare-release:
@@ -115,3 +116,40 @@ jobs:
 
       - name: Push frontend image to GHCR
         run: docker push "${{ steps.image-tags.outputs.frontend_image }}"
+
+      - name: Update GitOps image tags file
+        run: |
+          OWNER_LC="${GITHUB_REPOSITORY_OWNER,,}"
+          mkdir -p "$(dirname "${{ env.GITOPS_IMAGE_TAGS_FILE }}")"
+
+          cat > "${{ env.GITOPS_IMAGE_TAGS_FILE }}" <<EOF
+          backend:
+            image:
+              repository: ${{ env.REGISTRY }}/${OWNER_LC}/todo-backend
+              tag: sha-${{ steps.image-tags.outputs.short_sha }}
+
+          frontend:
+            image:
+              repository: ${{ env.REGISTRY }}/${OWNER_LC}/todo-frontend
+              tag: sha-${{ steps.image-tags.outputs.short_sha }}
+          EOF
+
+      - name: Commit GitOps image tag update
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            TARGET_BRANCH="${{ github.event.workflow_run.head_branch }}"
+          else
+            TARGET_BRANCH="${GITHUB_REF_NAME}"
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${{ env.GITOPS_IMAGE_TAGS_FILE }}"
+
+          if git diff --cached --quiet; then
+            echo "No GitOps change detected."
+            exit 0
+          fi
+
+          git commit -m "chore(gitops): update test image tags for sha-${{ steps.image-tags.outputs.short_sha }}"
+          git push origin "HEAD:${TARGET_BRANCH}"

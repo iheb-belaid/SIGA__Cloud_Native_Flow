@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "todo-platform.fullname" . }}-backend-config
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "todo-platform.commonLabels" . | nindent 4 }}
+    app.kubernetes.io/component: backend
+data:
+  SPRING_PROFILES_ACTIVE: {{ .Values.backend.env.SPRING_PROFILES_ACTIVE | quote }}
+  APP_CORS_ALLOWED_ORIGINS: {{ .Values.backend.env.APP_CORS_ALLOWED_ORIGINS | quote }}
+  SPRING_DATASOURCE_URL: {{ printf "jdbc:postgresql://postgres:%v/%s" .Values.postgres.service.port .Values.postgres.auth.database | quote }}

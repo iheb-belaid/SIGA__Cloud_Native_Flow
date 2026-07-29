@@ -1,0 +1,9 @@
+backend:
+  image:
+    repository: ghcr.io/iheb-belaid/todo-backend
+    tag: sha-placeholder
+
+frontend:
+  image:
+    repository: ghcr.io/iheb-belaid/todo-frontend
+    tag: sha-placeholder
