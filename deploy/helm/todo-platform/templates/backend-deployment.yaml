@@ -51,17 +51,26 @@ spec:
                 secretKeyRef:
                   name: {{ include "todo-platform.postgresSecretName" . }}
                   key: SPRING_DATASOURCE_PASSWORD
+          startupProbe:
+            httpGet:
+              path: {{ .Values.backend.probes.startupPath }}
+              port: http
+            initialDelaySeconds: {{ .Values.backend.probes.startupInitialDelaySeconds }}
+            periodSeconds: {{ .Values.backend.probes.startupPeriodSeconds }}
+            failureThreshold: {{ .Values.backend.probes.startupFailureThreshold }}
           livenessProbe:
             httpGet:
               path: {{ .Values.backend.probes.livenessPath }}
               port: http
-            initialDelaySeconds: 30
-            periodSeconds: 15
+            initialDelaySeconds: {{ .Values.backend.probes.livenessInitialDelaySeconds }}
+            periodSeconds: {{ .Values.backend.probes.livenessPeriodSeconds }}
+            failureThreshold: {{ .Values.backend.probes.livenessFailureThreshold }}
           readinessProbe:
             httpGet:
               path: {{ .Values.backend.probes.readinessPath }}
               port: http
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            initialDelaySeconds: {{ .Values.backend.probes.readinessInitialDelaySeconds }}
+            periodSeconds: {{ .Values.backend.probes.readinessPeriodSeconds }}
+            failureThreshold: {{ .Values.backend.probes.readinessFailureThreshold }}
           resources:
             {{- toYaml .Values.backend.resources | nindent 12 }}

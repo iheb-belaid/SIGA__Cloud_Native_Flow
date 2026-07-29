@@ -16,8 +16,18 @@ backend:
     SPRING_PROFILES_ACTIVE: prod
     APP_CORS_ALLOWED_ORIGINS: http://todo.local
   probes:
+    startupPath: /actuator/health
     livenessPath: /actuator/health/liveness
     readinessPath: /actuator/health/readiness
+    startupInitialDelaySeconds: 20
+    startupPeriodSeconds: 10
+    startupFailureThreshold: 18
+    livenessInitialDelaySeconds: 90
+    livenessPeriodSeconds: 15
+    livenessFailureThreshold: 3
+    readinessInitialDelaySeconds: 45
+    readinessPeriodSeconds: 10
+    readinessFailureThreshold: 6
   resources:
     requests:
       cpu: 100m
