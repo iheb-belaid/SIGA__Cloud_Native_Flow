@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { TaskFormComponent } from './task-form.component';
 import { TodoApiService } from './todo-api.service';
@@ -47,6 +47,8 @@ describe('TaskFormComponent', () => {
     fixture.detectChanges();
 
     const component = fixture.componentInstance;
+    const router = TestBed.inject(Router);
+    const navigateSpy = vi.spyOn(router, 'navigateByUrl').mockResolvedValue(true);
     component.form.setValue({
       title: 'Task browser test',
       dueDate: '2026-08-10',
@@ -64,5 +66,6 @@ describe('TaskFormComponent', () => {
       status: 'IN_PROGRESS',
       categoryId: 3
     });
+    expect(navigateSpy).toHaveBeenCalledWith('/tasks');
   });
 });
