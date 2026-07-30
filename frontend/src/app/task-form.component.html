@@ -32,8 +32,8 @@
           <label class="form-label">Categorie</label>
           <div class="d-flex gap-2 align-items-center">
             <select class="form-select" formControlName="categoryId" [disabled]="loadingCategories">
-              <option [ngValue]="0" disabled>-- Choisir --</option>
-              <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
+              <option value="" disabled>-- Choisir --</option>
+              <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
             </select>
             <button type="button" class="btn btn-outline-primary category-add-btn" (click)="openCategoryModal()">+</button>
           </div>

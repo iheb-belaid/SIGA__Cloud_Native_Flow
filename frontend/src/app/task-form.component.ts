@@ -40,7 +40,7 @@ export class TaskFormComponent implements OnInit {
     dueDate: [''],
     priority: ['MEDIUM' as Priority, Validators.required],
     status: ['TODO' as Status, Validators.required],
-    categoryId: [0, [Validators.required, Validators.min(1)]]
+    categoryId: ['', Validators.required]
   });
 
   readonly categoryForm = this.fb.nonNullable.group({
@@ -59,7 +59,7 @@ export class TaskFormComponent implements OnInit {
           dueDate: task.dueDate ?? '',
           priority: task.priority,
           status: task.status,
-          categoryId: task.category.id
+          categoryId: String(task.category.id)
         });
       });
     }
@@ -73,12 +73,19 @@ export class TaskFormComponent implements OnInit {
 
     this.saving = true;
     this.formError = '';
+    const categoryId = Number(this.form.controls.categoryId.value);
+    if (!Number.isInteger(categoryId) || categoryId < 1) {
+      this.saving = false;
+      this.formError = 'La categorie selectionnee est invalide.';
+      return;
+    }
+
     const payload: TaskPayload = {
       title: this.form.controls.title.value.trim(),
       dueDate: this.form.controls.dueDate.value || null,
       priority: this.form.controls.priority.value,
       status: this.form.controls.status.value,
-      categoryId: this.form.controls.categoryId.value
+      categoryId
     };
 
     const request = this.taskId
@@ -117,7 +124,7 @@ export class TaskFormComponent implements OnInit {
     this.api.createCategory(name).subscribe({
       next: (category) => {
         this.categories = [...this.categories, category].sort((left, right) => left.name.localeCompare(right.name));
-        this.form.controls.categoryId.setValue(category.id);
+        this.form.controls.categoryId.setValue(String(category.id));
         this.form.controls.categoryId.markAsTouched();
         this.categorySaving = false;
         this.closeCategoryModal();
