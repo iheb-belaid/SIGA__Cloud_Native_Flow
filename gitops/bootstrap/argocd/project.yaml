@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: todo-platform
+  namespace: argocd
+spec:
+  description: GitOps project for the SIGA Cloud Native Flow Todo platform
+  sourceRepos:
+    - https://github.com/iheb-belaid/SIGA__Cloud_Native_Flow.git
+  destinations:
+    - namespace: cloud-native-flow
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

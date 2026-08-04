@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: todo-test
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: todo-platform
+  sources:
+    - repoURL: https://github.com/iheb-belaid/SIGA__Cloud_Native_Flow.git
+      targetRevision: main
+      path: deploy/helm/todo-platform
+      helm:
+        releaseName: todo-test
+        valueFiles:
+          - $values/gitops/environments/test/values.yaml
+          - $values/gitops/environments/test/image-tags.yaml
+        parameters:
+          - name: postgres.auth.password
+            value: ChangeMe123!
+    - repoURL: https://github.com/iheb-belaid/SIGA__Cloud_Native_Flow.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cloud-native-flow
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
