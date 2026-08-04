@@ -2,6 +2,13 @@ global:
   domain: argocd.local
 
 configs:
+  cm:
+    # MicroK8s serves local ingress traffic without publishing a LoadBalancer address.
+    "resource.customizations.health.networking.k8s.io_Ingress": |
+      hs = {}
+      hs.status = "Healthy"
+      hs.message = "MicroK8s ingress is available without a LoadBalancer address."
+      return hs
   params:
     server.insecure: true
 

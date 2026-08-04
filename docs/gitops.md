@@ -28,6 +28,7 @@ GitHub push
 Ce fichier configure l'installation d'ArgoCD via Helm.
 
 - `global.domain`: nom logique utilise pour ArgoCD en local.
+- `configs.cm.resource.customizations.health.networking.k8s.io_Ingress`: adapte l'etat de sante des Ingress a MicroK8s local. Son controleur ingress ne publie pas d'adresse LoadBalancer, alors que l'application reste accessible. Sans cette regle, ArgoCD peut afficher `Synced / Progressing` malgre des pods sains.
 - `configs.params.server.insecure`: autorise l'acces HTTP local, pratique pour une demo avec port-forward.
 - `server.service.type`: garde ArgoCD en `ClusterIP`, donc non expose publiquement par defaut.
 - `controller.resources`: limite CPU/RAM du controleur ArgoCD.
@@ -103,6 +104,18 @@ Verifier les pods :
 ```bash
 microk8s kubectl get pods -n argocd
 ```
+
+Apres une modification de `deploy/argocd/values.yaml`, appliquer la configuration versionnee :
+
+```bash
+microk8s helm3 upgrade argocd argo/argo-cd \
+  -n argocd \
+  -f deploy/argocd/values.yaml \
+  --wait \
+  --timeout 10m
+```
+
+Pour MicroK8s local, la personnalisation de sante de l'Ingress est intentionnelle : elle permet a ArgoCD de distinguer un Ingress local utilisable d'un Ingress cloud en attente d'une adresse LoadBalancer.
 
 ## Bootstrap GitOps
 
