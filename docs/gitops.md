@@ -202,10 +202,12 @@ Ne jamais committer ce token dans Git.
 
 ## Test du flux GitOps
 
-Le test final consiste a faire un changement applicatif ou un commit vide, puis a verifier la chaine :
+Le test final consiste a faire un changement applicatif ou documentaire hors du dossier `gitops/`, puis a verifier la chaine. Le workflow `CI` ignore volontairement les changements limites a `gitops/**` afin que la mise a jour automatique des tags d'images ne relance pas toute la chaine de validation.
+
+Un commit vide ne declenche donc pas ce workflow. Pour une demonstration sans modifier le comportement applicatif, une courte mise a jour de documentation est suffisante.
 
 ```bash
-git commit --allow-empty -m "test: trigger gitops sync"
+git commit -m "test: trigger gitops sync"
 git push origin main
 ```
 
