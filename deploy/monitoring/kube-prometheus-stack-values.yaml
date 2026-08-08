@@ -1,0 +1,80 @@
+# Values for the local MicroK8s monitoring stack.
+# Grafana credentials are supplied by the grafana-admin Secret created outside Git.
+
+grafana:
+  enabled: true
+  admin:
+    existingSecret: grafana-admin
+    userKey: admin-user
+    passwordKey: admin-password
+  defaultDashboardsEnabled: true
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: microk8s-hostpath
+    accessModes:
+      - ReadWriteOnce
+    size: 2Gi
+  sidecar:
+    dashboards:
+      enabled: true
+      searchNamespace: ALL
+    datasources:
+      enabled: true
+
+prometheus:
+  enabled: true
+  prometheusSpec:
+    retention: 7d
+    scrapeInterval: 30s
+    evaluationInterval: 30s
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}
+    podMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelector: {}
+    podMonitorNamespaceSelector: {}
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: microk8s-hostpath
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 5Gi
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 1
+        memory: 1Gi
+
+prometheusOperator:
+  enabled: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+kubeStateMetrics:
+  enabled: true
+
+nodeExporter:
+  enabled: true
+
+alertmanager:
+  enabled: true
+  alertmanagerSpec:
+    retention: 7d
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
