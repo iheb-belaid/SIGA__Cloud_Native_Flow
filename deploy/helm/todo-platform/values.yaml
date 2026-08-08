@@ -15,7 +15,7 @@ backend:
   env:
     SPRING_PROFILES_ACTIVE: prod
     # Origins used by the local demo and the Kubernetes ingress.
-    APP_CORS_ALLOWED_ORIGINS: http://todo.local,http://192.168.150.155:4200,http://localhost:4200,http://127.0.0.1:4200
+    APP_CORS_ALLOWED_ORIGINS: http://todo.local,http://192.168.172.128:4200,http://localhost:4200,http://127.0.0.1:4200
   probes:
     startupPath: /actuator/health
     livenessPath: /actuator/health/liveness
