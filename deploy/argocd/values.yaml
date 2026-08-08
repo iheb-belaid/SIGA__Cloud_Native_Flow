@@ -15,8 +15,24 @@ configs:
 server:
   service:
     type: ClusterIP
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
+      interval: 30s
+      additionalLabels:
+        release: monitoring
 
 controller:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
+      interval: 30s
+      additionalLabels:
+        release: monitoring
   resources:
     requests:
       cpu: 100m
@@ -26,6 +42,14 @@ controller:
       memory: 1Gi
 
 repoServer:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
+      interval: 30s
+      additionalLabels:
+        release: monitoring
   resources:
     requests:
       cpu: 100m
@@ -36,6 +60,14 @@ repoServer:
 
 applicationSet:
   enabled: true
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
+      interval: 30s
+      additionalLabels:
+        release: monitoring
 
 notifications:
   enabled: false

@@ -87,3 +87,8 @@ ingress:
   className: nginx
   host: todo.local
   annotations: {}
+
+monitoring:
+  # Prometheus Operator uses this switch to create the backend ServiceMonitor.
+  enabled: true
+  scrapeInterval: 30s

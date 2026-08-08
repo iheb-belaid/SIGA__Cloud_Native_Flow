@@ -88,3 +88,7 @@ ingress:
   className: nginx
   host: todo.local
   annotations: {}
+
+monitoring:
+  enabled: true
+  scrapeInterval: 30s
