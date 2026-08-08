@@ -70,7 +70,8 @@ nodeExporter:
 alertmanager:
   enabled: true
   alertmanagerSpec:
-    retention: 7d
+    # Alertmanager accepts hours/minutes/seconds, not the Prometheus-style "d" suffix.
+    retention: 168h
     resources:
       requests:
         cpu: 50m
