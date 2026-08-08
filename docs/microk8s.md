@@ -73,6 +73,9 @@ Dans le fichier hosts Windows ouvert en administrateur, ajouter :
 
 ```text
 <VM_IP> todo.local
+<VM_IP> argocd.local
+<VM_IP> grafana.local
+<VM_IP> prometheus.local
 ```
 
 Tester depuis Windows :
@@ -82,6 +85,10 @@ curl.exe -H "Host: todo.local" http://<VM_IP>/api/categories
 ```
 
 Puis ouvrir `http://todo.local` dans le navigateur.
+
+Les interfaces d'administration sont accessibles avec les memes regles
+Ingress : `http://argocd.local`, `http://grafana.local` et
+`http://prometheus.local`.
 
 ## GitOps et verification
 

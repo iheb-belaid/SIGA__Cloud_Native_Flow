@@ -3,6 +3,13 @@
 
 grafana:
   enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - grafana.local
+    path: /
+    pathType: Prefix
   admin:
     existingSecret: grafana-admin
     userKey: admin-user
@@ -24,6 +31,14 @@ grafana:
 
 prometheus:
   enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - prometheus.local
+    paths:
+      - /
+    pathType: Prefix
   prometheusSpec:
     retention: 7d
     scrapeInterval: 30s

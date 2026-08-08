@@ -87,7 +87,29 @@ microk8s kubectl get servicemonitors -A
 microk8s kubectl get application todo-test -n argocd
 ```
 
-## Acces local
+## Acces local par Ingress
+
+L'acces principal de la demonstration ne depend pas d'un port-forward. Ajouter
+dans le fichier hosts Windows, avec l'adresse obtenue par `hostname -I` :
+
+```text
+<VM_IP> grafana.local
+<VM_IP> prometheus.local
+```
+
+Interfaces disponibles :
+
+- Grafana : `http://grafana.local`
+- Prometheus : `http://prometheus.local`
+
+Verifier les Ingress :
+
+```bash
+microk8s kubectl get ingress -n monitoring
+microk8s kubectl describe ingress -n monitoring
+```
+
+## Acces de secours par port-forward
 
 Afficher l'adresse IP de la VM :
 

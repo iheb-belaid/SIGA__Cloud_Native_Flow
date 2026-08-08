@@ -29,7 +29,7 @@ Ce fichier configure l'installation d'ArgoCD via Helm.
 
 - `global.domain`: nom logique utilise pour ArgoCD en local.
 - `configs.cm.resource.customizations.health.networking.k8s.io_Ingress`: adapte l'etat de sante des Ingress a MicroK8s local. Son controleur ingress ne publie pas d'adresse LoadBalancer, alors que l'application reste accessible. Sans cette regle, ArgoCD peut afficher `Synced / Progressing` malgre des pods sains.
-- `configs.params.server.insecure`: autorise l'acces HTTP local, pratique pour une demo avec port-forward.
+- `configs.params.server.insecure`: autorise l'acces HTTP local via l'Ingress ou un port-forward.
 - `server.service.type`: garde ArgoCD en `ClusterIP`, donc non expose publiquement par defaut.
 - `controller.resources`: limite CPU/RAM du controleur ArgoCD.
 - `repoServer.resources`: limite CPU/RAM du composant qui lit les repositories Git.
@@ -157,12 +157,27 @@ microk8s kubectl -n argocd get secret argocd-initial-admin-secret \
 
 Exposer ArgoCD en local :
 
+L'acces principal utilise l'Ingress. Ajouter dans le fichier hosts Windows,
+avec l'IP actuelle obtenue par `hostname -I` :
+
+```text
+<VM_IP> argocd.local
+```
+
+Puis ouvrir :
+
+```text
+http://argocd.local
+```
+
+Acces de secours par port-forward :
+
 ```bash
 microk8s kubectl port-forward --address 0.0.0.0 \
   -n argocd svc/argocd-server 8088:80
 ```
 
-Depuis Windows, ouvrir l'adresse avec l'IP actuelle de la VM :
+Depuis Windows, ouvrir l'adresse de secours avec l'IP actuelle de la VM :
 
 ```text
 http://<VM_IP>:8088
