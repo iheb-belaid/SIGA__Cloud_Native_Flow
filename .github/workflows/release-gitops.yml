@@ -21,6 +21,9 @@ permissions:
 env:
   REGISTRY: ghcr.io
   GITOPS_IMAGE_TAGS_FILE: gitops/environments/test/image-tags.yaml
+  # Keep Trivy's large vulnerability and Java databases outside the persistent
+  # GitHub workspace on the self-hosted runner.
+  TRIVY_CACHE_DIR: /home/iheb-belaid/.cache/trivy
 
 jobs:
   prepare-release:
@@ -89,10 +92,29 @@ jobs:
           load: true
           tags: ${{ steps.image-tags.outputs.frontend_image }}
 
+      - name: Prepare runner disk for Trivy
+        run: |
+          set -euo pipefail
+          mkdir -p "${TRIVY_CACHE_DIR}"
+
+          # Buildx cache is disposable; removing it prevents old image layers
+          # from competing with Trivy's Java database for VM disk space.
+          docker builder prune -af || true
+
+          AVAILABLE_KB=$(df --output=avail "$GITHUB_WORKSPACE" | tail -n 1 | tr -d ' ')
+          if [ "$AVAILABLE_KB" -lt 2097152 ]; then
+            echo "::error::Less than 2 GiB is available on the runner filesystem. Clean the VM before running Trivy."
+            df -h "$GITHUB_WORKSPACE"
+            exit 1
+          fi
+
+          df -h "$GITHUB_WORKSPACE"
+
       - name: Scan backend image with Trivy
         uses: aquasecurity/trivy-action@0.35.0
         with:
           image-ref: ${{ steps.image-tags.outputs.backend_image }}
+          cache-dir: ${{ env.TRIVY_CACHE_DIR }}
           format: table
           ignore-unfixed: true
           scanners: vuln
@@ -104,6 +126,7 @@ jobs:
         uses: aquasecurity/trivy-action@0.35.0
         with:
           image-ref: ${{ steps.image-tags.outputs.frontend_image }}
+          cache-dir: ${{ env.TRIVY_CACHE_DIR }}
           format: table
           ignore-unfixed: true
           scanners: vuln
