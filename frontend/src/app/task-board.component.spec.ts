@@ -52,6 +52,7 @@ describe('TaskBoardComponent', () => {
     expect(element.textContent).toContain('Configurer GHCR');
     expect(element.textContent).toContain('DevOps');
     expect(element.textContent).toContain('Haute');
+    expect(element.textContent).toContain('Cloud Native Flow');
   });
 
   it('should delete a task and reload the board after confirmation', () => {
