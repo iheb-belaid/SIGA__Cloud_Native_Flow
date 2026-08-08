@@ -1,9 +1,9 @@
 backend:
   image:
     repository: ghcr.io/iheb-belaid/todo-backend
-    tag: sha-123f331
+    tag: sha-70a5522
 
 frontend:
   image:
     repository: ghcr.io/iheb-belaid/todo-frontend
-    tag: sha-123f331
+    tag: sha-70a5522
