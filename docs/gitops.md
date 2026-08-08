@@ -162,11 +162,14 @@ microk8s kubectl port-forward --address 0.0.0.0 \
   -n argocd svc/argocd-server 8088:80
 ```
 
-Depuis Windows, ouvrir :
+Depuis Windows, ouvrir l'adresse avec l'IP actuelle de la VM :
 
 ```text
-http://192.168.150.155:8088
+http://<VM_IP>:8088
 ```
+
+Afficher l'IP courante depuis Ubuntu avec `hostname -I`. L'adresse peut changer
+apres un redemarrage ou une reconfiguration VMware.
 
 Identifiants :
 
@@ -202,12 +205,15 @@ Ne jamais committer ce token dans Git.
 
 ## Test du flux GitOps
 
-Le test final consiste a faire un changement applicatif ou documentaire hors du dossier `gitops/`, puis a verifier la chaine. Le workflow `CI` ignore volontairement les changements limites a `gitops/**` afin que la mise a jour automatique des tags d'images ne relance pas toute la chaine de validation.
+Le test final consiste a faire un petit changement UI hors du dossier `gitops/`, puis a verifier la chaine. Le workflow `CI` ignore volontairement les changements limites a `gitops/**` afin que la mise a jour automatique des tags d'images ne relance pas toute la chaine de validation.
 
-Un commit vide ne declenche donc pas ce workflow. Pour une demonstration sans modifier le comportement applicatif, une courte mise a jour de documentation est suffisante.
+Un commit vide ne declenche donc pas ce workflow. Pour la demonstration finale,
+un texte visible du tableau Angular est modifie afin de prouver que la nouvelle
+image a bien ete construite et deployee.
 
 ```bash
-git commit -m "test: trigger gitops sync"
+git add frontend
+git commit -m "demo: update todo board for end-to-end delivery"
 git push origin main
 ```
 

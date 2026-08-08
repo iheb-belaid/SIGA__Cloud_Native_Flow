@@ -1,79 +1,76 @@
 # SIGA Cloud Native Flow
 
-Projet realise dans le cadre d'un stage DevOps chez SIGA autour du sujet :
+Projet realise dans le cadre du stage DevOps chez SIGA autour du sujet :
 
 **Cloud Native Flow : Automatisation CI/CD et Deploiement GitOps Securise**
 
 ## Objectif
 
-Ce projet sert de base applicative pour mettre en place ensuite une chaine DevOps complete autour d'une application de gestion de taches.
+Transformer une application Todo Spring Boot / Angular / PostgreSQL en une
+plateforme demonstrable avec CI/CD, DevSecOps, conteneurs, Kubernetes, GitOps
+et observabilite.
 
-L'objectif est de disposer d'une application separee en :
+## Architecture finale
 
-- un backend Spring Boot
-- un frontend Angular
-- une base de donnees PostgreSQL
+```text
+Utilisateur
+    |
+    v
+MicroK8s Ingress -> Frontend Angular/Nginx -> Backend Spring Boot -> PostgreSQL
+                                      |
+                                      +-> Actuator/Prometheus
 
-Puis d'utiliser cette base pour construire les prochaines etapes du sujet :
+GitHub push -> CI -> Quality/Security -> Release/GitOps -> GHCR
+                                                     |
+                                                     v
+                                           gitops/image-tags.yaml
+                                                     |
+                                                     v
+                                                  ArgoCD
+                                                     |
+                                                     v
+                                             MicroK8s / Helm
+                                                     |
+                                                     v
+                                           Prometheus -> Grafana
+```
 
-- integration continue
-- livraison continue
-- deploiement GitOps
-- securisation du cycle de deploiement
+Les schemas detailles sont dans [docs/architecture.md](docs/architecture.md).
 
 ## Stack technique
 
-- Java 21
-- Spring Boot 3
-- Angular 21
+- Java 21, Spring Boot 3 et Maven
+- Angular 21, Node.js 22 et Nginx
 - PostgreSQL
-- Maven
-- npm
+- Docker et Docker Compose
+- GitHub Actions sur un runner self-hosted Ubuntu
+- GHCR pour les images Docker
+- SonarQube, OWASP Dependency-Check et Trivy
+- MicroK8s et Helm
+- ArgoCD pour le GitOps
+- Prometheus et Grafana pour le monitoring
 
-## Structure du projet
+## Fonctionnalites applicatives
 
-```text
-.
-|-- backend/   # API Spring Boot
-|-- frontend/  # Application Angular
-`-- README.md
-```
-
-## Fonctionnalites actuelles
-
-- creation de categories
-- creation de taches
-- modification de taches
-- suppression de taches
-- affichage en tableau Kanban
+- creation de categories et de taches
+- modification et suppression de taches
+- tableau Kanban
 - changement de statut par glisser-deposer
+- API de sante et metriques Spring Boot
 
-## Lancement du backend
+## Demarrage local
 
-Depuis le dossier `backend` :
+Pour lancer l'ensemble avec Docker Compose :
 
 ```bash
-./mvnw spring-boot:run
+cp deploy/docker/.env.example deploy/docker/.env
+docker compose --env-file deploy/docker/.env \
+  -f deploy/docker/docker-compose.dev.yml up --build
 ```
 
-Sous Windows PowerShell :
+L'application est ensuite disponible sur `http://localhost:4200`.
 
-```powershell
-.\mvnw.cmd spring-boot:run
-```
-
-Le backend demarre par defaut sur :
-
-```text
-http://localhost:8081
-```
-
-Profils Spring Boot disponibles :
-
-- `dev` par defaut pour le developpement local
-- `prod` pour les executions conteneurisees et les environnements de deploiement
-
-Variables d'environnement principales :
+Les variables backend conservees comme interface sont :
 
 - `SPRING_PROFILES_ACTIVE`
 - `SPRING_DATASOURCE_URL`
@@ -81,83 +78,44 @@ Variables d'environnement principales :
 - `SPRING_DATASOURCE_PASSWORD`
 - `APP_CORS_ALLOWED_ORIGINS`
 
-## Lancement du frontend
+## Workflows GitHub Actions
 
-Depuis le dossier `frontend` :
+Les workflows sont executes dans cet ordre :
 
-```bash
-npm install
-npm start
-```
+1. `ci.yml` : tests backend, tests frontend et build Angular.
+2. `quality-security.yml` : couverture, SonarQube et OWASP.
+3. `release-gitops.yml` : images Docker, Trivy, GHCR et mise a jour GitOps.
 
-Le frontend demarre par defaut sur :
+Le detail des jobs et des secrets est documente dans
+[docs/ci-cd.md](docs/ci-cd.md).
+
+## Kubernetes, GitOps et monitoring
+
+- Chart Helm : `deploy/helm/todo-platform`
+- Valeurs de l'environnement de test : `gitops/environments/test`
+- Bootstrap ArgoCD : `gitops/bootstrap/argocd`
+- Valeurs Prometheus/Grafana : `deploy/monitoring`
+
+Guides disponibles :
+
+- [Architecture](docs/architecture.md)
+- [CI/CD et DevSecOps](docs/ci-cd.md)
+- [MicroK8s](docs/microk8s.md)
+- [GitOps avec ArgoCD](docs/gitops.md)
+- [Monitoring](docs/monitoring.md)
+- [Runbook de demonstration](docs/demo-runbook.md)
+- [Index des preuves](docs/evidence/README.md)
+
+## Documentation de demonstration
+
+Le scenario final couvre le flux suivant :
 
 ```text
-http://localhost:4200
+Commit UI -> CI -> SonarQube/OWASP -> Docker/Trivy -> GHCR
+-> mise a jour GitOps -> ArgoCD -> MicroK8s -> Grafana
 ```
 
-Le frontend utilise maintenant des fichiers d'environnement Angular :
-
-- `src/environments/environment.ts` pour le developpement
-- `src/environments/environment.prod.ts` pour la production
-
-## Base de donnees
-
-L'application utilise PostgreSQL avec la base :
-
-```text
-Siga-todo-cloud-native-Flow
-```
-
-Le backend a ete prepare pour creer automatiquement cette base si PostgreSQL est disponible localement et que la base n'existe pas encore.
-
-## Observabilite
-
-Le backend expose des endpoints Actuator pour preparer le monitoring :
-
-- `http://localhost:8081/actuator/health`
-- `http://localhost:8081/actuator/prometheus`
-
-## Integration Continue
-
-Le workflow GitHub Actions principal se trouve dans :
-
-- `.github/workflows/ci.yml`
-
-Cette pipeline CI est declenchee sur :
-
-- `push` sur `main`
-- `pull_request` vers `main`
-
-Elle execute :
-
-- les tests backend Spring Boot
-- l'installation des dependances frontend avec `npm ci`
-- les tests frontend Angular
-- le build Angular
-
-Le build frontend est ensuite publie comme artefact GitHub Actions sous le nom `frontend-dist`.
-
-## Qualite et securite
-
-Le workflow GitHub Actions de qualite et securite se trouve dans :
-
-- `.github/workflows/quality-security.yml`
-
-Cette pipeline :
-
-- demarre automatiquement apres succes du workflow `CI` sur `main`
-- peut aussi etre relancee manuellement avec `workflow_dispatch`
-- genere un rapport de couverture backend avec JaCoCo
-- genere un rapport de couverture frontend au format LCOV
-- lance SonarQube sur le backend et le frontend si les secrets GitHub sont definis
-- lance OWASP Dependency-Check sur le repository
-- publie les rapports backend, frontend et OWASP comme artefacts GitHub Actions
-
-Secrets GitHub requis pour SonarQube :
-
-- `SONAR_HOST_URL`
-- `SONAR_TOKEN`
+Le runbook fournit les commandes, les validations et les captures attendues.
 
 ## Auteur
 

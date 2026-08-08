@@ -109,9 +109,12 @@ microk8s kubectl port-forward --address 0.0.0.0 \
   -n monitoring svc/monitoring-kube-prometheus-prometheus 9090:9090
 ```
 
-Depuis Windows, ouvrir `http://IP_VM:3000` pour Grafana et
-`http://IP_VM:9090/targets` pour Prometheus. L'utilisation de
+Depuis Windows, ouvrir `http://<VM_IP>:3000` pour Grafana et
+`http://<VM_IP>:9090/targets` pour Prometheus. L'utilisation de
 `--address 0.0.0.0` est reservee a la VM de demonstration locale.
+
+L'adresse courante est obtenue avec `hostname -I`. Elle peut changer apres un
+redemarrage ou une modification du reseau VMware.
 
 ## Verification
 
@@ -153,6 +156,21 @@ Le dashboard de demonstration doit montrer :
 - les pods backend, frontend et PostgreSQL ;
 - la memoire JVM, le nombre de requetes et les erreurs HTTP du backend ;
 - l'etat `Synced` et `Healthy` de l'application `todo-test`.
+
+## Resultats observes pour le livrable
+
+La validation finale doit conserver les preuves suivantes :
+
+- la cible `serviceMonitor/cloud-native-flow/todo-platform-backend/0` est `UP`;
+- la requete `up{job="backend"}` retourne `1`;
+- les metriques `jvm_memory_used_bytes{job="backend"}` sont visibles;
+- les requetes HTTP apparaissent apres un trafic genere sur `/api/tasks/board`;
+- les cibles ArgoCD retournees par `up{job=~".*argocd.*"}` sont `1`;
+- les dashboards Kubernetes affichent le cluster et le namespace
+  `cloud-native-flow`.
+
+Les captures correspondantes sont repertoriees dans
+[docs/evidence/README.md](evidence/README.md).
 
 ## Diagnostic rapide
 
