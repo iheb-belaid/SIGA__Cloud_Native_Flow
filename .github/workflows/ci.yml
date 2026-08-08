@@ -65,6 +65,8 @@ jobs:
 
       - name: Upload frontend build artifact
         uses: actions/upload-artifact@v4
+        # The artifact helps troubleshooting but must not block application validation.
+        continue-on-error: true
         with:
           name: frontend-dist
           path: frontend/dist/frontend
