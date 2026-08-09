@@ -48,6 +48,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Cleanup disposable Docker data
+        run: |
+          set -euo pipefail
+          # The MicroK8s runtime uses containerd, so this cleanup does not
+          # remove images or volumes used by the Kubernetes workloads.
+          docker container prune -f || true
+          docker image prune -af || true
+          docker builder prune -af || true
+          df -h /
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -102,8 +112,8 @@ jobs:
           docker builder prune -af || true
 
           AVAILABLE_KB=$(df --output=avail "$GITHUB_WORKSPACE" | tail -n 1 | tr -d ' ')
-          if [ "$AVAILABLE_KB" -lt 2097152 ]; then
-            echo "::error::Less than 2 GiB is available on the runner filesystem. Clean the VM before running Trivy."
+          if [ "$AVAILABLE_KB" -lt 4194304 ]; then
+            echo "::error::Less than 4 GiB is available on the runner filesystem after the Docker build. Clean or expand the VM disk before running Trivy."
             df -h "$GITHUB_WORKSPACE"
             exit 1
           fi
