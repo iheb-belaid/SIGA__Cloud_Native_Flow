@@ -1,6 +1,11 @@
 global:
   domain: argocd.local
 
+# The Redis secret is created once during the initial bootstrap. Disabling the
+# chart hook avoids a repeated pending Helm upgrade on this local MicroK8s VM.
+redisSecretInit:
+  enabled: false
+
 configs:
   cm:
     # MicroK8s serves local ingress traffic without publishing a LoadBalancer address.
